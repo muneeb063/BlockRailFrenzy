@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8634c5cf5896bb84ca6474552cf85648, type: 3}
+  m_Name: Audio Settings
+  m_EditorClassIdentifier: 
+  matchSound: {fileID: 8300000, guid: 1241c180ad574404590d97a6644a8811, type: 3}
+  completeSound: {fileID: 8300000, guid: 997a55197139e9c4f99a94510a7f342c, type: 3}
+  failSound: {fileID: 8300000, guid: 18a08c83485975849bc6971313250db9, type: 3}
+  clickSound: {fileID: 8300000, guid: b177f3b2485b7be4dbd5177a9376fc38, type: 3}
+  clickBlockedSound: {fileID: 8300000, guid: b177f3b2485b7be4dbd5177a9376fc38, type: 3}
+  TrainEntrance: {fileID: 8300000, guid: bc6871cb7ba8be24f97990d127d1cb0c, type: 3}
+  TrainMove: {fileID: 8300000, guid: 614f85ba6a97cf34fabbda8112c05bcd, type: 3}
+  SitSound: {fileID: 8300000, guid: 48b7b3d01e314d4489b002198102a8ba, type: 3}
+  CombosClips:
+  - {fileID: 8300000, guid: be98134b03a7ee04fa04664663c62307, type: 3}
+  - {fileID: 8300000, guid: 4a3a85e15eb225546b862436f656dcc3, type: 3}
+  - {fileID: 8300000, guid: 8394966a814221848a5c8b45dce6615e, type: 3}
+  - {fileID: 8300000, guid: f1b846292ecf03240b15503dbbb3ab8f, type: 3}
+  - {fileID: 8300000, guid: 518be95c34921b34a947c8ed505dd3ed, type: 3}
+  - {fileID: 8300000, guid: 2008753a42340d74abcdaf6615a0e29b, type: 3}
+  buttonSound: {fileID: 8300000, guid: 43778771ca132fe44baa768ab4be8bc2, type: 3}

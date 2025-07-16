@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Arrow
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 2100000, guid: 793aaebdf6186f6439968d3ce19873e4, type: 2}
+  m_ModifiedSerializedProperties: 2
+  m_ValidKeywords:
+  - _EMISSION
+  m_InvalidKeywords:
+  - CUSTOM_LIGHT_DIRECTION_ON
+  - EMISSION_ON
+  - OUTLINE_ON
+  - RIM_ON
+  - SPECULAR_ON
+  - TOON_ON
+  - _SHADOWS_PIXEL
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 56f3240b2fa853a498403f0697f59804, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 56f3240b2fa853a498403f0697f59804, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTex:
+        m_Texture: {fileID: 2800000, guid: 56f3240b2fa853a498403f0697f59804, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 56f3240b2fa853a498403f0697f59804, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CameraDistanceImpact: 0.92
+    - _CustomLightDirectionOn: 1
+    - _DirRim: 0.545
+    - _EmissionOn: 1
+    - _Glossiness: 0.5
+    - _Metallic: 0.543
+    - _OutlineOn: 1
+    - _RimMax: 0.913
+    - _RimMin: 0.218
+    - _RimOn: 1
+    - _Shiness: 0.46
+    - _Smoothness: 0.566
+    - _Specular: 0.014
+    - _SpecularOn: 1
+    - _ToonOn: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CustomLightDirection: {r: -131.15, g: -137.9, b: 147.3, a: 0}
+    - _EmissionColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
+    - _OutlineColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
+    - _RimColor: {r: 1, g: 0.6933962, b: 0.6933962, a: 1}
+    - _SColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
+    - _SpecularMax: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    - _SpecularMin: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &2661317441847796839
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

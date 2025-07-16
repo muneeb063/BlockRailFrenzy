@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe013f73fcca6724bbc90d83474c28be, type: 3}
+  m_Name: PU FreezeTimer Settings
+  m_EditorClassIdentifier: 
+  type: 3
+  icon: {fileID: 21300000, guid: c05fe8f0dba8d9f458d9eb47316e0925, type: 3}
+  powerupVideo: {fileID: 32900000, guid: a5bc0197e57fa9b4895dbffe36260ff1, type: 3}
+  behaviorPrefab: {fileID: 5986373513900194225, guid: cf1f3db27dd413a4081d2e47e11ba00e,
+    type: 3}
+  customAudioClip:
+    enabled: 0
+    value: {fileID: 0}
+  defaultAmount: 2
+  description: Freeze your Level Time Now!
+  requiredLevel: 14
+  visualiseActiveState: 0
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  purchaseOption: 0
+  currencyType: 0
+  price: 900
+  purchaseAmount: 3
+  floatingMessage: Time has been freezed

@@ -1,0 +1,192 @@
+
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Advertisements;
+using UnityEngine.UI;
+
+public class BuyBoostView : BaseView
+{
+    public enum BoostType
+    {
+        HINT,
+        SHUFFLE,
+        FREEZE
+    }
+
+    public BoostType currentType;
+
+    public Image titleIcon;
+
+    public Image freePack1Icon;
+
+    public Image freePack2Icon;
+
+    public List<BuyPackageData> IAPPackageData = new List<BuyPackageData>();
+
+    public List<BuyPackageView> IAPPackageView = new List<BuyPackageView>();
+
+    public Sprite[] boostIconList;
+
+    public override void InitView()
+    {
+
+    }
+
+    public void InitView(BoostType type)
+    {
+        currentType = type;
+    }
+
+    public override void ShowView()
+    {
+        base.ShowView();
+
+        Sprite itemSpr = null;
+
+        if (currentType == BoostType.HINT)
+            itemSpr = boostIconList[0];
+        else
+        if (currentType == BoostType.SHUFFLE)
+            itemSpr = boostIconList[1];
+        else
+        if (currentType == BoostType.FREEZE)
+            itemSpr = boostIconList[2];
+
+        titleIcon.sprite = itemSpr;
+        freePack1Icon.sprite = itemSpr;
+        freePack2Icon.sprite = itemSpr;
+
+        for (int i = 0; i < IAPPackageData.Count; i++)
+        {
+            IAPPackageView[i].itemIcon.sprite = itemSpr;
+            IAPPackageView[i].priceTxt.text = "$" + IAPPackageData[i].priceValue;
+            IAPPackageView[i].totalTxt.text = "x" + IAPPackageData[i].totalValue;
+        }
+    }
+
+    public override void Start()
+    {
+
+    }
+
+    public override void Update()
+    {
+
+    }
+
+    public void BuyByCoin()
+    {
+        AudioManager.instance.btnSound.Play();
+        if (GameManager.Instance.currentCoin >= 400)
+        {
+            GameManager.Instance.AddCoin(-400);
+            if (currentType == BoostType.HINT)
+                GameManager.Instance.AddHint(1);
+            else
+        if (currentType == BoostType.SHUFFLE)
+                GameManager.Instance.AddShuffle(1);
+            else
+        if (currentType == BoostType.FREEZE)
+                GameManager.Instance.AddFreeze(1);
+            HideView();
+        }
+        else
+        {
+            HideView();
+            GameManager.Instance.uiManager.storeView.ShowView();
+        }
+
+    }
+
+    public void WatchAds()
+    {
+        AudioManager.instance.btnSound.Play();
+
+        // GMAdsManager.Instance.ShowBothRewarded(EarnFreeBoost);
+        //AdsManager.Instance.ShowRewarded();
+        MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
+       // EarnFreeBoost();
+        HideView();
+    }
+
+    public void MoreCoins()
+    {
+        AudioManager.instance.btnSound.Play();
+        GameManager.Instance.uiManager.storeLayer.BuyIAPPackage(Config.IAPPackageID.coin_900);
+        HideView();
+    }
+
+    public void BuyIAP(int itemIndex)
+    {
+        AudioManager.instance.btnSound.Play();
+        switch (itemIndex)
+        {
+            case 0:
+                GameManager.Instance.uiManager.storeLayer.BuyIAPPackage(Config.IAPPackageID.boost_5);
+                break;
+
+            case 1:
+                GameManager.Instance.uiManager.storeLayer.BuyIAPPackage(Config.IAPPackageID.boost_12);
+                break;
+
+            case 2:
+                GameManager.Instance.uiManager.storeLayer.BuyIAPPackage(Config.IAPPackageID.boost_25);
+                break;
+        }
+
+        HideView();
+    }
+
+
+    public void EarnFreeBoost()
+    {
+
+        if (currentType == BoostType.HINT)
+            GameManager.Instance.AddHint(1);
+        else if (currentType == BoostType.SHUFFLE)
+            GameManager.Instance.AddShuffle(1);
+        else if (currentType == BoostType.FREEZE)
+            GameManager.Instance.AddFreeze(1);
+    }
+
+    public void ShowRWUnityAds()
+    {
+        // AdsControl.Instance.PlayUnityVideoAd((string ID , UnityAdsShowCompletionState callBackState) =>
+        /*  GMAdsManager.Instance.ShowBothRewarded(() =>
+          {
+              if (currentType == BoostType.HINT)
+                  GameManager.Instance.AddHint(1);
+              else if (currentType == BoostType.SHUFFLE)
+                  GameManager.Instance.AddShuffle(1);
+              else if (currentType == BoostType.FREEZE)
+                  GameManager.Instance.AddFreeze(1);
+          });*/
+        MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
+       /* if (currentType == BoostType.HINT)
+            GameManager.Instance.AddHint(1);
+        else if (currentType == BoostType.SHUFFLE)
+            GameManager.Instance.AddShuffle(1);
+        else if (currentType == BoostType.FREEZE)
+            GameManager.Instance.AddFreeze(1);*/
+    }
+}
+
+[System.Serializable]
+public class BuyPackageView
+{
+    public Image itemIcon;
+
+    public Text totalTxt;
+
+    public Text priceTxt;
+
+}
+
+
+[System.Serializable]
+public class BuyPackageData
+{
+    public int totalValue;
+
+    public float priceValue;
+}
