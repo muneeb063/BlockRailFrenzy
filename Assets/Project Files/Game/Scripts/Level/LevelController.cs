@@ -199,7 +199,7 @@ namespace Watermelon.BusStop
             {
                 customManagerScript.instance.LevelArtData= Instantiate(loadedLevelData.LevelArt);
             }
-            
+            customManagerScript.instance.TrainCount = loadedLevelData.TotalTrains;
             //DocksStates();
             if (LevelController.DisplayLevelNumber > 4)
             {

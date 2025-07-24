@@ -4,8 +4,10 @@ using Watermelon;
 public class TrainBoxManager : MonoBehaviour
 {
     public GridCellColor[] gridCells;
-
     private bool hasDeparted = false;
+
+    // Event to notify LevelManager
+    public System.Action<TrainBoxManager> OnTrainDeparted;
 
     void Update()
     {
@@ -13,7 +15,8 @@ public class TrainBoxManager : MonoBehaviour
         {
             hasDeparted = true;
             Debug.Log($"{gameObject.name} is FULL. Train moving!");
-            MoveTrain(); // Your animation or transition here
+            MoveTrain();
+            OnTrainDeparted?.Invoke(this);  // Notify LevelManager
         }
     }
 
@@ -29,9 +32,17 @@ public class TrainBoxManager : MonoBehaviour
 
     void MoveTrain()
     {
-        // Animate, destroy, slide, etc.
-        // Debug.Log($" {gameObject.name} departing!");
-        // Example: transform.Translate(Vector3.right * 10f);
-        gameObject.transform.parent.gameObject.GetComponent<BusBehavior>().MoveToExit();
+        customManagerScript.instance.TrainFillCount++;
+        if (customManagerScript.instance.TrainFillCount == customManagerScript.instance.TrainCount)
+        {
+            Debug.Log("LEVEL COMPLETE!");
+            GameController.WinGame();
+            customManagerScript.instance.TrainFillCount = 0;
+            gameObject.transform.parent.gameObject.GetComponent<BusBehavior>().MoveToExit();
+        }
+        else
+        {
+            gameObject.transform.parent.gameObject.GetComponent<BusBehavior>().MoveToExit();
+        }
     }
 }

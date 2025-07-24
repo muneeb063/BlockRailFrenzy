@@ -63,6 +63,8 @@ public class customManagerScript : MonoBehaviour
 
     public Text timerText; // Optional: assign in Inspector to show countdown
     public GameObject FeatureSliderObj;
+    public int TrainFillCount;
+    public int TrainCount = 0;
     void Start()
     {
         //PassengerActionManager.instance.ClearLists();

@@ -9,6 +9,7 @@ namespace Watermelon.BusStop
         public const float BLOCK_PICK_Z_OFFSET = 1.0f;
         public const float BLOCK_OVERLAY_Z_OFFSET = -0.1f;
         public GameObject LevelArt;
+        public int TotalTrains;
         [SerializeField, LevelEditorSetting] ElementData[] elementsData;
         public ElementData[] ElementsData => elementsData;
 

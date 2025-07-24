@@ -164,10 +164,12 @@ namespace Watermelon
                 GameController.RemoveTrain = false;
                 Move(LevelController.Environment.TrainExit, 1, Clear);
                 AudioController.PlaySound(AudioController.AudioClips.TrainMove);
+                Debug.LogError("If Called");
             }
             else
             {
                 Move(LevelController.Environment.BusExitPos, 1, Clear);
+                Debug.LogError("else Called");
             }
             
         }
