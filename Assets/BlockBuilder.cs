@@ -23,7 +23,7 @@ public class BlockBuilder : MonoBehaviour
         {
             GameObject part = Instantiate(cubePrefab, transform);
             part.transform.localPosition = new Vector3(pos.x, 0f, pos.y);
-            part.GetComponent<Renderer>().material.color = blockData.shapeColor;
+           // part.GetComponent<Renderer>().material.color = blockData.shapeColor;
 
             // Add collider if not already
             if (!part.TryGetComponent(out BoxCollider col))
