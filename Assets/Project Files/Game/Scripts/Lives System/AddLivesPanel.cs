@@ -99,7 +99,7 @@ namespace Watermelon
 
                   Hide();
               });*/
-            MaxAdsManager.instance.ShowRewardedVideo(giveReward);
+           // MaxAdsManager.instance.ShowRewardedVideo(giveReward);
         }
         void giveReward()
         {

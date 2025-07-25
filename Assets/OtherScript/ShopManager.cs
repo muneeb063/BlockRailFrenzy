@@ -78,7 +78,7 @@ public class ShopManager : MonoBehaviour
     public void RemoveAds()
     {
         PlayerPrefs.SetInt("RemoveAds", 1);
-        MaxAdsManager.instance.HideBanner();
+       // MaxAdsManager.instance.HideBanner();
         customManagerScript.instance.PurchaseSuccess();
     }
 }

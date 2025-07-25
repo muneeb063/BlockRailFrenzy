@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Facebook.Unity.Example;
 
 //[CreateAssetMenu(menuName = "Block Shape")]
 [CreateAssetMenu(menuName = "BlocksData/Block Shape")]

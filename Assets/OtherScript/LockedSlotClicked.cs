@@ -33,7 +33,7 @@ public class LockedSlotClicked : MonoBehaviour
     {
         //Debug.LogError("3D Model Clicked!");
         
-        MaxAdsManager.instance.ShowRewardedVideo(UnlockSlots);
+       // MaxAdsManager.instance.ShowRewardedVideo(UnlockSlots);
         //PUController.UsePowerUpCustom(PUType.Hint);
         // Call any custom method here
     }

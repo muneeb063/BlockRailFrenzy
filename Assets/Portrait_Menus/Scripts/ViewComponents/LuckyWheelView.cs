@@ -204,7 +204,7 @@ public class LuckyWheelView : BaseView
         AudioController.PlaySound(AudioController.AudioClips.buttonSound);
 
         //GMAdsManager.Instance.ShowBothRewarded(EarnFreeSpin);
-        MaxAdsManager.instance.ShowRewardedVideo(EarnFreeSpin);
+       // MaxAdsManager.instance.ShowRewardedVideo(EarnFreeSpin);
        // EarnFreeSpin();
     }
 
@@ -223,7 +223,7 @@ public class LuckyWheelView : BaseView
 
         });*/
         //AdsManager.Instance.ShowRewarded();
-        MaxAdsManager.instance.ShowRewardedVideo(StartSpin);
+      //  MaxAdsManager.instance.ShowRewardedVideo(StartSpin);
         //StartSpin();
     }
 }

@@ -6,7 +6,7 @@ using System.Collections;
 using Unity.VisualScripting;
 //using ByteBrewSDK;
 using System.Collections.Generic;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 using System;
 namespace Watermelon
 {
@@ -121,7 +121,7 @@ namespace Watermelon
 
             UIController.HidePage<UIMainMenu>();
             UIController.ShowPage<UIGame>();
-            MaxAdsManager.instance.ShowBanner();
+            //MaxAdsManager.instance.ShowBanner();
             customManagerScript.instance.PlayUIAnimator(customManagerScript.instance.uiGames.gameObject);
             //Tween.DelayedCall(2f, LivesManager.RemoveLife);
         }
@@ -202,11 +202,11 @@ namespace Watermelon
             //customManagerScript.instance.GADesigncallback("level_complete"); // Event ID 01
             //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
 
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}:result:win");
+           /* GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}:result:win");
             GameAnalytics.NewDesignEvent($"level_{value}:result:win");
             GameAnalytics.NewDesignEvent($"win");
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, $"level_{value}");
-            Debug.Log($"GA Progression Event: COMPLETE level_{value}");
+            Debug.Log($"GA Progression Event: COMPLETE level_{value}");*/
 
             //customManagerScript.instance.GADesigncallback($"level_complete_time:{value}:{customManagerScript.instance.remainingTime:F2}");
             //customManagerScript.instance.GADesigncallback($"level_{value}_CT_{value}_{customManagerScript.instance.remainingTime:F2}");
@@ -253,7 +253,7 @@ namespace Watermelon
             UIController.ShowPage<UIGame>();
             customManagerScript.instance.PlayUIAnimator(customManagerScript.instance.uiGames.gameObject);
             levelSave.ReplayingLevelAgain = true;
-            MaxAdsManager.instance.ShowBanner();
+           // MaxAdsManager.instance.ShowBanner();
             LoadLevel();
         }
 

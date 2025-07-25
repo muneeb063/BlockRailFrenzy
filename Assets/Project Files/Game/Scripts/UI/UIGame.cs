@@ -145,7 +145,7 @@ namespace Watermelon
             UIController.ShowPage<UIMainMenu>();
             customManagerScript.instance.isLevelPaused = true;
             customManagerScript.instance.levelscroller.ScrollToCurrentLevel();
-            MaxAdsManager.instance.HideBanner();
+          //  MaxAdsManager.instance.HideBanner();
             LivesManager.RemoveLife();
             customManagerScript.instance.PlayUIAnimator(Mainmenu);
             GameController.ReplayLevel();

@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Watermelon.BusStop;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 namespace Watermelon
 {
     public class UIGameOver : UIPage
@@ -69,7 +69,7 @@ namespace Watermelon
         public void GiveExtraTime()
         {
 
-            MaxAdsManager.instance.ShowRewardedVideo(TimeReward);
+           // MaxAdsManager.instance.ShowRewardedVideo(TimeReward);
         }
         void TimeReward()
         {
@@ -96,10 +96,10 @@ namespace Watermelon
             //customManagerScript.instance.GADesigncallback($"level_fail_time:{value}:{customManagerScript.instance.remainingTime:F2}"); // Event ID 03
 
             //Full Funnel
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}:result:fail");
+            /*GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}:result:fail");
             GameAnalytics.NewDesignEvent($"level_{value}:result:fail");
             GameAnalytics.NewDesignEvent($"fail");
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, $"level_{value}");
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, $"level_{value}");*/
             Debug.Log($"GA Design Event: level_{value}:result:fail");
         }
         public void ReplayButton()
@@ -120,7 +120,7 @@ namespace Watermelon
                 customManagerScript.instance.isLevelPaused = false;
                 UIController.HidePage<UIGameOver>();
                 UIController.ShowPage<UIGame>();
-                MaxAdsManager.instance.ShowBanner();
+                //MaxAdsManager.instance.ShowBanner();
                 customManagerScript.instance.PlayUIAnimator(customManagerScript.instance.uiGames.gameObject);
                 customManagerScript.instance.StartTimer();
                 //GameController.ReplayLevel();
@@ -139,14 +139,14 @@ namespace Watermelon
                 //customManagerScript.instance.GADesigncallback("LevelStart");
                 int value = LevelController.DisplayLevelNumber + 1;
                 //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
-                GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
+                /*GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
                 GameAnalytics.NewDesignEvent($"level_load_{value}");
                 Debug.Log($"GA Design Event: level_load_{value}");
 
                 GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
                 GameAnalytics.NewDesignEvent($"level_start_{value}");
                 Debug.Log($"GA Design Event: level_start_{value}");
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");
+                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");*/
 
             }
             else 
@@ -160,7 +160,7 @@ namespace Watermelon
                 UIController.ShowPage<UIMainMenu>();
                 customManagerScript.instance.isLevelPaused = true;
                 customManagerScript.instance.levelscroller.ScrollToCurrentLevel();
-                MaxAdsManager.instance.HideBanner();
+               // MaxAdsManager.instance.HideBanner();
                 customManagerScript.instance.PlayUIAnimator(MainMenu);
                 GameController.ResetStuff();
                 int value = LevelController.DisplayLevelNumber + 1;
@@ -172,9 +172,9 @@ namespace Watermelon
         };
                // ByteBrew.NewCustomEvent("Level", EventParameters);
                 customManagerScript.instance.LogEvent_NonRevenue("Level_" + value + "_Loaded");
-                GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
+               /* GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
 
-                GameAnalytics.NewDesignEvent($"level_load_{value}");
+                GameAnalytics.NewDesignEvent($"level_load_{value}");*/
 
                 // PlayerPrefs.SetInt("IsFirst", 1);
             }
@@ -250,7 +250,7 @@ namespace Watermelon
         public void GiveExtraLife()
         {
             // count++;
-            MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
+           // MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
             /*  LivesManager.AddLife();
               UIController.HidePage<UIGameOver>();
               UIController.ShowPage<UIGame>();

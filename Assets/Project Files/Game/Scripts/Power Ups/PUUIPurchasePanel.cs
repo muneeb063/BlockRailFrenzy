@@ -96,7 +96,7 @@ namespace Watermelon
          /*   AudioController.PlaySound(AudioController.AudioClips.buttonSound);
             customManagerScript.instance.ShowRewardVideo();
             PUController.AddPowerUp(settings.Type, settings.PurchaseAmount);*/
-            MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
+           // MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
             //ClosePurchasePUPanel();
 /*#if MODULE_MONETIZATION
             AdsManager.ShowRewardBasedVideo((bool reward) =>

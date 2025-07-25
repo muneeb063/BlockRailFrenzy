@@ -104,7 +104,7 @@ public class BuyBoostView : BaseView
 
         // GMAdsManager.Instance.ShowBothRewarded(EarnFreeBoost);
         //AdsManager.Instance.ShowRewarded();
-        MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
+        //MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
        // EarnFreeBoost();
         HideView();
     }
@@ -161,7 +161,7 @@ public class BuyBoostView : BaseView
               else if (currentType == BoostType.FREEZE)
                   GameManager.Instance.AddFreeze(1);
           });*/
-        MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
+       // MaxAdsManager.instance.ShowRewardedVideo(EarnFreeBoost);
        /* if (currentType == BoostType.HINT)
             GameManager.Instance.AddHint(1);
         else if (currentType == BoostType.SHUFFLE)

@@ -51,7 +51,7 @@ public class RewardSlider : MonoBehaviour
     public void StopSlider()
     {
    
-        MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
+      //  MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
     }
     void GiveReward()
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using Watermelon.BusStop;
 using UIAnimatorCore;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 namespace Watermelon
 {
     public class UIComplete : UIPage
@@ -246,7 +246,7 @@ namespace Watermelon
             
             UIController.HidePage<UIComplete>();
             UIController.ShowPage<UIGame>();
-            MaxAdsManager.instance.ShowBanner();
+            //MaxAdsManager.instance.ShowBanner();
             customManagerScript.instance.PlayUIAnimator(customManagerScript.instance.uiGames.gameObject);
             GameController.LoadNextLevel();
             //GameController.LoadNextLevel();
@@ -267,10 +267,10 @@ namespace Watermelon
             int value = LevelController.DisplayLevelNumber + 1;
 
             //Full Funnel
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
+            /*GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
             GameAnalytics.NewDesignEvent($"level_start_{value}");
             Debug.Log($"GA Design Event: level_start_{value}");
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");*/
 
             //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
             customManagerScript.instance.StartBombTimers();
@@ -312,7 +312,7 @@ namespace Watermelon
            // FindAnyObjectByType<EnvironmentBehavior>().UnlockSlot();
             UIController.HidePage<UIComplete>();
             UIController.ShowPage<UIGame>();
-            MaxAdsManager.instance.ShowBanner();
+           // MaxAdsManager.instance.ShowBanner();
             customManagerScript.instance.PlayUIAnimator(customManagerScript.instance.uiGames.gameObject);
             GameController.LoadNextLevel();
             customManagerScript.instance.UpdateLevelData();
@@ -332,10 +332,10 @@ namespace Watermelon
             int value = LevelController.DisplayLevelNumber + 1;
 
             //Full Funnel
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
+          /*  GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
             GameAnalytics.NewDesignEvent($"level_start_{value}");
             Debug.Log($"GA Design Event: level_start_{value}");
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");*/
 
             //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
             customManagerScript.instance.StartBombTimers();

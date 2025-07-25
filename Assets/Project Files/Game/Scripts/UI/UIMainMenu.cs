@@ -5,7 +5,7 @@ using Watermelon.BusStop;
 using Watermelon.IAPStore;
 using Watermelon.SkinStore;
 using UnityEngine.UI;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 namespace Watermelon
 {
     public class UIMainMenu : UIPage
@@ -178,10 +178,10 @@ namespace Watermelon
                 //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
 
                 //Full Funnel
-                GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
+               /* GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
                 GameAnalytics.NewDesignEvent($"level_start_{value}");
                 Debug.Log($"GA Design Event: level_start_{value}");
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");
+                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");*/
                 // gameObject.SetActive(false);
             }
             else
@@ -239,7 +239,7 @@ namespace Watermelon
 
                 UIController.ShowPage<UIMainMenu>();
                 customManagerScript.instance.levelscroller.ScrollToCurrentLevel();
-                MaxAdsManager.instance.HideBanner();
+               // MaxAdsManager.instance.HideBanner();
             }
         }
 

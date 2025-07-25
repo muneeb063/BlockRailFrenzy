@@ -11,7 +11,7 @@ using UIAnimatorDemo;
 using DG.Tweening;
 using UnityEngine.Video;
 using System;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 
 public class customManagerScript : MonoBehaviour
 {
@@ -68,7 +68,7 @@ public class customManagerScript : MonoBehaviour
     void Start()
     {
         //PassengerActionManager.instance.ClearLists();
-        MaxAdsManager.instance.ShowBanner();
+        //MaxAdsManager.instance.ShowBanner();
         if (instance == null)
         {
             instance = this;
@@ -77,13 +77,13 @@ public class customManagerScript : MonoBehaviour
         //customManagerScript.instance.GADesigncallback("SessionStart");
         if (PlayerPrefs.GetInt("IsFirst") == 0)
         {
-            MaxAdsManager.instance.ShowBanner();
+          //  MaxAdsManager.instance.ShowBanner();
             PlayerPrefs.SetInt("IsFirst", 1);
             UIController.ShowPage<UIGame>();
             customManagerScript.instance.PlayUIAnimator(uiGames.gameObject);
             UIController.HidePage<UIMainMenu>();
             mainmenu.TapToPlayButton();
-            MaxAdsManager.instance.Log_GA_Event("UniqueEvent");
+           // MaxAdsManager.instance.Log_GA_Event("UniqueEvent");
             int value = LevelController.DisplayLevelNumber + 1;
             customManagerScript.instance.LevelStart("TrainStation","Level"+value);
             /*var EventParameters = new Dictionary<string, string>()
@@ -97,17 +97,17 @@ public class customManagerScript : MonoBehaviour
             //customManagerScript.instance.GADesigncallback("LevelStart");
             //customManagerScript.instance.GADesigncallback($"level_number:{value}"); // Event ID 02
 
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
+          /*  GameAnalytics.NewDesignEvent($"session_start:level_load_{value}:level_start_{value}");
             GameAnalytics.NewDesignEvent($"level_start_{value}");
             Debug.Log($"GA Design Event: level_start_{value}");
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, $"level_{value}");*/
 
         }
         else if (PlayerPrefs.GetInt("IsFirst") == 1)
         {
             customManagerScript.instance.isLevelPaused = true;
             UIController.ShowPage<UIMainMenu>();
-            MaxAdsManager.instance.HideBanner();
+           // MaxAdsManager.instance.HideBanner();
             customManagerScript.instance.PlayUIAnimator(mainmenu.gameObject);
             customManagerScript.instance.levelscroller.ScrollToCurrentLevel();
             int value = LevelController.DisplayLevelNumber + 1;
@@ -120,9 +120,9 @@ public class customManagerScript : MonoBehaviour
             //ByteBrew.NewCustomEvent("Level", EventParameters);
             customManagerScript.instance.LogEvent_NonRevenue("Level_" + value + "_Loaded");
 
-            GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
+           /* GameAnalytics.NewDesignEvent($"session_start:level_load_{value}");
 
-            GameAnalytics.NewDesignEvent($"level_load_{value}");
+            GameAnalytics.NewDesignEvent($"level_load_{value}");*/
 
             if (isAppOpenShown == false)
             {
@@ -148,7 +148,7 @@ public class customManagerScript : MonoBehaviour
     }
     public void GADesigncallback(string s)
     {
-        MaxAdsManager.instance.GADesignEvent(s);
+       // MaxAdsManager.instance.GADesignEvent(s);
     }
     public void PurchaseSuccess()
     {
@@ -408,7 +408,7 @@ public class customManagerScript : MonoBehaviour
     }
     public void LoadRewardedVideo()
     {
-        MaxAdsManager.instance.LoadRewardedAd();
+       // MaxAdsManager.instance.LoadRewardedAd();
     }
     public void AdDelayInter()
     {
@@ -416,7 +416,7 @@ public class customManagerScript : MonoBehaviour
     }
     public void ShowInterstitial()
     {
-        MaxAdsManager.instance.ShowInterstitial();
+      //  MaxAdsManager.instance.ShowInterstitial();
     }
     public void ShowRewardVideo()
     {
@@ -424,19 +424,19 @@ public class customManagerScript : MonoBehaviour
     }
     public void LevelComplete(string s,string lvl)
     {
-        MaxAdsManager.instance.CustomAnalytics.GameWin(s,lvl);
+       // MaxAdsManager.instance.CustomAnalytics.GameWin(s,lvl);
     }
     public void LevelFailed(string s, string lvl)
     {
-        MaxAdsManager.instance.CustomAnalytics.GameLoose(s,lvl);
+       // MaxAdsManager.instance.CustomAnalytics.GameLoose(s,lvl);
     }
     public void LevelStart(string s, string lvl)
     {
-        MaxAdsManager.instance.CustomAnalytics.GameStart(s,lvl);
+       // MaxAdsManager.instance.CustomAnalytics.GameStart(s,lvl);
     }
     public void LogEvent_NonRevenue(string s)
     {
-        MaxAdsManager.instance.CustomAnalytics.LogEvent_NonRevenue(s);
+       // MaxAdsManager.instance.CustomAnalytics.LogEvent_NonRevenue(s);
     }
     public void ShowFeatureUnlocked()
     {

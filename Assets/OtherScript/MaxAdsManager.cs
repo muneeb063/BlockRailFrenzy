@@ -1,22 +1,22 @@
 using System;
 using System.Drawing;
 using UnityEngine;
-using static MaxSdkCallbacks;
+//using static MaxSdkCallbacks;
 using UnityEngine.UIElements;
 using static MaxAdsManager;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 using Watermelon.BusStop;
 using static Watermelon.UnityAdsLegacyContainer;
-using static MaxSdkBase;
+//using static MaxSdkBase;
 //using ByteBrewSDK;
-using static MaxEvents;
+//using static MaxEvents;
 using static UnityEngine.Rendering.DebugUI;
 using System.Collections.Generic;
-using Firebase.Analytics;
+//using Firebase.Analytics;
 
 public class MaxAdsManager : MonoBehaviour
 {
-    public string SDK_KEY = "YOUR_SDK_KEY_HERE";
+    /*public string SDK_KEY = "YOUR_SDK_KEY_HERE";
     public string RewardedadUnitId = "«Android-ad-unit-ID»";
     public string InterstitialadUnitId = "«Android-ad-unit-ID»";
     public string bannerAdUnitId = "«Android-ad-unit-ID»";
@@ -667,14 +667,14 @@ public class MaxAdsManager : MonoBehaviour
     public void ShowAppOpen()
     {
         ShowInterstitial();
-       /* if (MaxSdk.IsAppOpenAdReady(AppOpenAdUnitId))
+       *//* if (MaxSdk.IsAppOpenAdReady(AppOpenAdUnitId))
         {
             MaxSdk.ShowAppOpenAd(AppOpenAdUnitId);
         }
         else
         {
             MaxSdk.LoadAppOpenAd(AppOpenAdUnitId);
-        }*/
+        }*//*
     }
    public void InitializeAppOpenEvents()
     {
@@ -725,5 +725,5 @@ public class MaxAdsManager : MonoBehaviour
                 Debug.Log("called");
             
         }
-    }
+    }*/
 }

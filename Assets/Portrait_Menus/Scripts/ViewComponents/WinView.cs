@@ -229,7 +229,7 @@ public class WinView : BaseView
         AudioManager.instance.btnSound.Play();
 
         //GMAdsManager.Instance.ShowBothRewarded(EarnMulti);
-        MaxAdsManager.instance.ShowRewardedVideo(EarnMulti);
+      //  MaxAdsManager.instance.ShowRewardedVideo(EarnMulti);
         EarnMulti();
     }
 
@@ -243,7 +243,7 @@ public class WinView : BaseView
         {
             // GMAdsManager.Instance.Show_Interstitial();
             //AdsManager.Instance.ShowInterstitial();
-            MaxAdsManager.instance.ShowInterstitial();
+           // MaxAdsManager.instance.ShowInterstitial();
         }
 
         GameManager.Instance.NextLevel();
@@ -315,7 +315,7 @@ public class WinView : BaseView
     }
     public void ShowRWUnityAds()
     {
-        MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
+        //MaxAdsManager.instance.ShowRewardedVideo(GiveReward);
         //Debug.Log("CLAIM MULTI STAR");
         /*GameManager.Instance.inGameStar *= multiAdsCount;
         GameManager.Instance.SaveStar();
