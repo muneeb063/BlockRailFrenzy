@@ -1,14 +1,12 @@
 using UnityEngine;
 using Watermelon;
+using DG.Tweening;
+using Tween = DG.Tweening.Tween;
+using Ease = DG.Tweening.Ease;
+
 public enum BlockColorType
 {
-    Blue,
-    Red,
-    Yellow,
-    Green,
-    Pink,
-    Purple,
-    Any
+    Blue, Red, Yellow, Green, Pink, Purple, Any
 }
 
 public class BlockDragger : MonoBehaviour
@@ -20,16 +18,16 @@ public class BlockDragger : MonoBehaviour
     private Vector3 originalPosition;
     public BlockColorType blockColor;
     private GridCellColor[] lastOccupiedCells;
+    private Tween currentTween;
+
     void Start()
     {
         mainCam = Camera.main;
-        
     }
 
     void Update()
     {
         HandleDrag();
-        
     }
 
     void HandleDrag()
@@ -41,16 +39,24 @@ public class BlockDragger : MonoBehaviour
             {
                 if (hit.transform.IsChildOf(transform))
                 {
-                    isDragging = true;
-                    originalPosition = transform.position; // store current position
+                    if (IsOverlappingOtherBlocks())
+                    {
+                        Debug.Log("Dragging prevented: block is overlapping another block.");
+                        return;
+                    }
 
-                    // Save offset from block center to hit point
+                    isDragging = true;
+                    originalPosition = transform.position;
+
                     Plane plane = new Plane(Vector3.up, transform.position);
                     if (plane.Raycast(ray, out float enter))
                     {
                         Vector3 hitPointOnPlane = ray.GetPoint(enter);
                         offset = transform.position - hitPointOnPlane;
                     }
+
+                    // Kill any previous tweens
+                    currentTween?.Kill();
                 }
             }
         }
@@ -65,97 +71,84 @@ public class BlockDragger : MonoBehaviour
                 Vector3 hitPointOnPlane = ray.GetPoint(enter);
                 Vector3 targetPos = hitPointOnPlane + offset;
                 targetPos.y = yOffset;
-                transform.position = targetPos;
+
+                if (!WouldOverlapAtPosition(targetPos))
+                {
+                    currentTween?.Kill();
+                    currentTween = transform.DOMove(targetPos, 0.15f).SetEase(Ease.OutQuad);
+                }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 isDragging = false;
+                currentTween?.Kill();
                 SnapToGrid();
-               
             }
         }
     }
 
     void SnapToGrid()
     {
-        // Use first child as anchor
         Transform anchor = transform.GetChild(0);
         Vector3 anchorWorld = anchor.position;
 
-        // Convert world position to grid coords
         Vector2Int gridPos = GridManager.Instance.GetGridFromWorld(anchorWorld);
         Vector3 snappedWorld = GridManager.Instance.GetWorldFromGrid(gridPos.x, gridPos.y);
 
-        // Offset the parent block so the anchor aligns
         Vector3 delta = snappedWorld - anchorWorld;
-        transform.position += delta;
+        Vector3 finalPos = transform.position + delta;
+        finalPos.y = yOffset;
 
-        // Lock Y position
-        Vector3 fixedPos = transform.position;
-        fixedPos.y = yOffset;
-        transform.position = fixedPos;
+        transform.position = finalPos;
 
-        // Check for overlapping
-        bool isOverlapping = false;
+        bool isOverlapping = IsOverlappingOtherBlocks();
 
+        if (isOverlapping || !IsAllChildrenInsideGridTriggers() || !IsBlockOverCorrectColorCells())
+        {
+            transform.DOMove(originalPosition, 0.2f).SetEase(Ease.InOutQuad);
+            ClearLastOccupiedCells();
+            return;
+        }
+
+        ClearLastOccupiedCells();
+        RegisterOccupiedCells();
+    }
+
+    bool IsOverlappingOtherBlocks()
+    {
         foreach (Transform child in transform)
         {
-            Vector3 pos = child.position;
-            Vector3 halfExtents = child.localScale / 2f * 0.9f;
+            Vector3 center = child.position;
+            Vector3 halfExtents = Vector3.one * 0.45f;
 
-            Collider[] hits = Physics.OverlapBox(pos, halfExtents, child.rotation);
+            Collider[] hits = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
             foreach (Collider hit in hits)
             {
                 if (!hit.transform.IsChildOf(transform) && hit.CompareTag("BlockCube"))
                 {
-                    isOverlapping = true;
-                    break;
+                    return true;
                 }
             }
-
-            if (isOverlapping) break;
         }
-
-        /*   // Handle invalid placement
-           if (isOverlapping || !IsAllChildrenInsideGridTriggers() || !IsBlockOverCorrectColorCells())
-           {
-               transform.position = originalPosition;
-               return;
-           }
-
-           //  Mark occupied grid cells
-           foreach (Transform child in transform)
-           {
-               Collider[] hits = Physics.OverlapSphere(child.position, 0.5f);
-               foreach (Collider col in hits)
-               {
-                   GridCellColor cell = col.GetComponent<GridCellColor>();
-                   if (cell != null)
-                   {
-                       cell.isOccupied = true;
-                   }
-               }
-           }*/
-        if (isOverlapping || !IsAllChildrenInsideGridTriggers() || !IsBlockOverCorrectColorCells())
-        {
-            transform.position = originalPosition;
-            ClearLastOccupiedCells(); // Unmark previous cells
-            return;
-        }
-
-        //  Valid placement
-        ClearLastOccupiedCells();     // First clear old
-        RegisterOccupiedCells();      // Then mark new
+        return false;
     }
 
+    bool WouldOverlapAtPosition(Vector3 proposedPosition)
+    {
+        Vector3 originalPos = transform.position;
+        transform.position = proposedPosition;
+        bool isOverlapping = IsOverlappingOtherBlocks();
+        transform.position = originalPos;
+        return isOverlapping;
+    }
 
     public bool IsAllChildrenInsideGridTriggers()
     {
         foreach (Transform child in transform)
         {
             Vector3 center = child.position;
-            Vector3 halfExtents = Vector3.one * 0.45f; // fixed size instead of relying on scale
+            Vector3 halfExtents = Vector3.one * 0.45f;
             Collider[] hits = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
 
             bool foundGridCell = false;
@@ -171,13 +164,14 @@ public class BlockDragger : MonoBehaviour
 
             if (!foundGridCell)
             {
-                Debug.LogWarning(" Child not on grid: " + child.name + " at " + child.position);
+                Debug.LogWarning("Child not on grid: " + child.name + " at " + child.position);
                 return false;
             }
         }
 
         return true;
     }
+
     bool IsBlockOverCorrectColorCells()
     {
         foreach (Transform child in transform)
@@ -209,6 +203,7 @@ public class BlockDragger : MonoBehaviour
 
         return true;
     }
+
     void ClearLastOccupiedCells()
     {
         if (lastOccupiedCells == null) return;
@@ -220,7 +215,7 @@ public class BlockDragger : MonoBehaviour
         }
 
         lastOccupiedCells = null;
-        /// Remove Block as Child
+
         foreach (Transform child in transform)
         {
             Collider[] hits = Physics.OverlapSphere(child.position, 0.4f);
@@ -229,12 +224,13 @@ public class BlockDragger : MonoBehaviour
                 BusBehavior bus = hit.GetComponentInParent<BusBehavior>();
                 if (bus != null)
                 {
-                    transform.SetParent(customManagerScript.instance.LevelArtData.transform); // Re-parent to Level
+                    transform.SetParent(customManagerScript.instance.LevelArtData.transform);
                     return;
                 }
             }
         }
     }
+
     void RegisterOccupiedCells()
     {
         var newList = new System.Collections.Generic.List<GridCellColor>();
@@ -254,7 +250,7 @@ public class BlockDragger : MonoBehaviour
         }
 
         lastOccupiedCells = newList.ToArray();
-        /// Make Block Child
+
         foreach (Transform child in transform)
         {
             Collider[] hits = Physics.OverlapSphere(child.position, 0.4f);
@@ -263,7 +259,7 @@ public class BlockDragger : MonoBehaviour
                 BusBehavior bus = hit.GetComponentInParent<BusBehavior>();
                 if (bus != null)
                 {
-                    transform.SetParent(bus.transform); // Re-parent to bus
+                    transform.SetParent(bus.transform);
                     return;
                 }
             }
