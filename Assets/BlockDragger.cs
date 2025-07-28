@@ -72,10 +72,16 @@ public class BlockDragger : MonoBehaviour
                 Vector3 targetPos = hitPointOnPlane + offset;
                 targetPos.y = yOffset;
 
+                float maxMoveDistance = 2.5f;
+
                 if (!WouldOverlapAtPosition(targetPos))
                 {
-                    currentTween?.Kill();
-                    currentTween = transform.DOMove(targetPos, 0.15f).SetEase(Ease.OutQuad);
+                    float distance = Vector3.Distance(transform.position, targetPos);
+                    if (distance <= maxMoveDistance)
+                    {
+                        currentTween?.Kill();
+                        currentTween = transform.DOMove(targetPos, 0.15f).SetEase(Ease.OutQuad);
+                    }
                 }
             }
 
