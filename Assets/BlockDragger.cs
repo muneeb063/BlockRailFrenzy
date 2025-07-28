@@ -55,7 +55,6 @@ public class BlockDragger : MonoBehaviour
                         offset = transform.position - hitPointOnPlane;
                     }
 
-                    // Kill any previous tweens
                     currentTween?.Kill();
                 }
             }
@@ -73,14 +72,28 @@ public class BlockDragger : MonoBehaviour
                 targetPos.y = yOffset;
 
                 float maxMoveDistance = 2.5f;
+                float distance = Vector3.Distance(transform.position, targetPos);
 
-                if (!WouldOverlapAtPosition(targetPos))
+                if (distance <= maxMoveDistance)
                 {
-                    float distance = Vector3.Distance(transform.position, targetPos);
-                    if (distance <= maxMoveDistance)
+                    // Try full move
+                    if (!WouldOverlapAtPosition(targetPos))
                     {
                         currentTween?.Kill();
-                        currentTween = transform.DOMove(targetPos, 0.15f).SetEase(Ease.OutQuad);
+                        currentTween = transform.DOMove(targetPos, 0.12f).SetEase(Ease.OutQuad);
+                    }
+                    else
+                    {
+                        // Try a soft nudge towards finger
+                        Vector3 softTarget = Vector3.Lerp(transform.position, targetPos, 0.15f);
+                        softTarget.y = yOffset;
+
+                        if (!WouldOverlapAtPosition(softTarget))
+                        {
+                            currentTween?.Kill();
+                            currentTween = transform.DOMove(softTarget, 0.12f).SetEase(Ease.OutSine);
+                        }
+                        // Else: block stays in place (prevent jerky jumps)
                     }
                 }
             }
@@ -93,6 +106,7 @@ public class BlockDragger : MonoBehaviour
             }
         }
     }
+
 
     void SnapToGrid()
     {
