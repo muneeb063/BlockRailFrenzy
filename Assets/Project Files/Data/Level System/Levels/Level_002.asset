@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d931e0e510c5941b73798608b73d81, type: 3}
   m_Name: Level_002
   m_EditorClassIdentifier: 
-  LevelArt: {fileID: 878154719913805611, guid: 5bc0d5180d1aebf4083df2003eb5f6ce, type: 3}
+  LevelArt: {fileID: 6738428459855953344, guid: 8e46ad246b838a8418344133258478ec,
+    type: 3}
+  TotalTrains: 5
   elementsData:
   - elementType: 0
     elementPosition:
@@ -88,9 +90,9 @@ MonoBehaviour:
     temp: 2
   spawnerData: []
   tutorialSteps: []
-  busSpawnQueue: 0a0000000e000000
+  busSpawnQueue: 0d0000000b0000000a0000000b0000000c000000
   width: 4
   height: 3
   coinsReward: 20
   useInRandomizer: 1
-  note: 2
+  note: 5
