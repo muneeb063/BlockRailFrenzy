@@ -104,7 +104,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.82, y: 1, z: 0.82}
+  m_Size: {x: 0.85, y: 1, z: 0.85}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8332212528697115918
 Rigidbody:
@@ -237,7 +237,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.82, y: 1, z: 0.82}
+  m_Size: {x: 0.85, y: 1, z: 0.85}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8076528393665671514
 Rigidbody:
@@ -329,3 +329,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockColor: 0
+  dragFollowSpeed: 30
+  moveCheckStep: 0.05

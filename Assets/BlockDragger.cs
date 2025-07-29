@@ -16,97 +16,178 @@ public class BlockDragger : MonoBehaviour
     private Vector3 offset;
     private float yOffset = 0.5f;
     private Vector3 originalPosition;
+    private Vector3 currentTargetPos;
+    private Plane dragPlane;
+
     public BlockColorType blockColor;
     private GridCellColor[] lastOccupiedCells;
     private Tween currentTween;
 
+    [SerializeField] private float dragFollowSpeed = 20f;
+    [SerializeField] private float moveCheckStep = 0.05f;
+
     void Start()
     {
         mainCam = Camera.main;
+        AutoSnapToGrid();
     }
+    void AutoSnapToGrid()
+    {
+        Transform anchor = transform.GetChild(0);
+        Vector3 anchorWorld = anchor.position;
 
+        Vector2Int gridPos = GridManager.Instance.GetGridFromWorld(anchorWorld);
+        Vector3 snappedWorld = GridManager.Instance.GetWorldFromGrid(gridPos.x, gridPos.y);
+
+        Vector3 delta = snappedWorld - anchorWorld;
+        Vector3 finalPos = transform.position + delta;
+        finalPos.y = yOffset;
+
+        transform.position = finalPos;
+
+        // Register occupied cells so grid knows this block is placed
+        RegisterOccupiedCells();
+    }
     void Update()
     {
-        HandleDrag();
+#if UNITY_EDITOR
+        HandleMouseDrag(); // for editor testing
+#else
+        HandleTouchDrag(); // for mobile
+#endif
+
+        if (isDragging)
+        {
+            transform.position = Vector3.Lerp(transform.position, currentTargetPos, Time.deltaTime * dragFollowSpeed);
+        }
     }
 
-    void HandleDrag()
+    void HandleTouchDrag()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount == 0) return;
+
+        Touch touch = Input.GetTouch(0);
+        Ray ray = mainCam.ScreenPointToRay(touch.position);
+
+        switch (touch.phase)
         {
-            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.transform.IsChildOf(transform))
+            case TouchPhase.Began:
+                if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.IsChildOf(transform))
                 {
-                    if (IsOverlappingOtherBlocks())
-                    {
-                        Debug.Log("Dragging prevented: block is overlapping another block.");
-                        return;
-                    }
+                    if (IsOverlappingOtherBlocks()) return;
 
                     isDragging = true;
                     originalPosition = transform.position;
 
-                    Plane plane = new Plane(Vector3.up, transform.position);
-                    if (plane.Raycast(ray, out float enter))
+                    dragPlane = new Plane(Vector3.up, transform.position);
+
+                    if (dragPlane.Raycast(ray, out float enter))
                     {
-                        Vector3 hitPointOnPlane = ray.GetPoint(enter);
-                        offset = transform.position - hitPointOnPlane;
+                        Vector3 hitPoint = ray.GetPoint(enter);
+                        offset = transform.position - hitPoint;
+                        currentTargetPos = transform.position; // initialize target pos to current
                     }
 
                     currentTween?.Kill();
                 }
-            }
-        }
+                break;
 
-        if (isDragging)
-        {
-            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            Plane plane = new Plane(Vector3.up, transform.position);
+            case TouchPhase.Moved:
+            case TouchPhase.Stationary:
+                if (!isDragging) return;
 
-            if (plane.Raycast(ray, out float enter))
-            {
-                Vector3 hitPointOnPlane = ray.GetPoint(enter);
-                Vector3 targetPos = hitPointOnPlane + offset;
-                targetPos.y = yOffset;
-
-                float maxMoveDistance = 2.5f;
-                float distance = Vector3.Distance(transform.position, targetPos);
-
-                if (distance <= maxMoveDistance)
+                if (dragPlane.Raycast(ray, out float dragEnter))
                 {
-                    // Try full move
-                    if (!WouldOverlapAtPosition(targetPos))
-                    {
-                        currentTween?.Kill();
-                        currentTween = transform.DOMove(targetPos, 0.12f).SetEase(Ease.OutQuad);
-                    }
-                    else
-                    {
-                        // Try a soft nudge towards finger
-                        Vector3 softTarget = Vector3.Lerp(transform.position, targetPos, 0.05f);//0.15 tha
-                        softTarget.y = yOffset;
+                    Vector3 hitPoint = ray.GetPoint(dragEnter);
+                    Vector3 targetPos = hitPoint + offset;
+                    targetPos.y = yOffset;
 
-                        if (!WouldOverlapAtPosition(softTarget))
-                        {
-                            currentTween?.Kill();
-                            currentTween = transform.DOMove(softTarget, 0.12f).SetEase(Ease.OutSine);
-                        }
-                        // Else: block stays in place (prevent jerky jumps)
+                    Vector3 finalPos = transform.position;
+
+                    // Walk toward targetPos but stop if overlap occurs
+                    for (float t = 0f; t <= 1f; t += 0.05f)
+                    {
+                        Vector3 step = Vector3.Lerp(transform.position, targetPos, t);
+                        step.y = yOffset;
+
+                        if (!WouldOverlapAtPosition(step))
+                            finalPos = step;
+                        else
+                            break;
                     }
+
+                    currentTargetPos = finalPos;
                 }
-            }
+                break;
 
-            if (Input.GetMouseButtonUp(0))
-            {
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                if (!isDragging) return;
+
                 isDragging = false;
-                currentTween?.Kill();
                 SnapToGrid();
-            }
+                break;
         }
     }
 
+
+    void HandleMouseDrag() // For PC testing
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform.IsChildOf(transform))
+            {
+                if (IsOverlappingOtherBlocks()) return;
+
+                isDragging = true;
+                originalPosition = transform.position;
+                dragPlane = new Plane(Vector3.up, transform.position);
+
+                if (dragPlane.Raycast(ray, out float enter))
+                {
+                    Vector3 hitPoint = ray.GetPoint(enter);
+                    offset = transform.position - hitPoint;
+                }
+
+                currentTween?.Kill();
+            }
+        }
+
+        if (Input.GetMouseButton(0) && isDragging)
+        {
+            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+            if (dragPlane.Raycast(ray, out float enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Vector3 targetPos = hitPoint + offset;
+                targetPos.y = yOffset;
+
+                Vector3 direction = targetPos - transform.position;
+                Vector3 candidatePos = transform.position;
+
+                for (float t = 0f; t <= 1f; t += moveCheckStep)
+                {
+                    Vector3 stepPos = Vector3.Lerp(transform.position, targetPos, t);
+                    stepPos.y = yOffset;
+
+                    if (!WouldOverlapAtPosition(stepPos))
+                        candidatePos = stepPos;
+                    else
+                        break;
+                }
+
+                currentTargetPos = candidatePos;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0) && isDragging)
+        {
+            isDragging = false;
+            SnapToGrid();
+        }
+    }
 
     void SnapToGrid()
     {
@@ -122,11 +203,9 @@ public class BlockDragger : MonoBehaviour
 
         transform.position = finalPos;
 
-        bool isOverlapping = IsOverlappingOtherBlocks();
-
-        if (isOverlapping || !IsAllChildrenInsideGridTriggers() || !IsBlockOverCorrectColorCells())
+        if (IsOverlappingOtherBlocks() || !IsAllChildrenInsideGridTriggers() || !IsBlockOverCorrectColorCells())
         {
-            transform.DOMove(originalPosition, 0.2f).SetEase(Ease.InOutQuad);
+            currentTween = transform.DOMove(originalPosition, 0.2f).SetEase(Ease.InOutQuad);
             ClearLastOccupiedCells();
             return;
         }
@@ -141,14 +220,11 @@ public class BlockDragger : MonoBehaviour
         {
             Vector3 center = child.position;
             Vector3 halfExtents = Vector3.one * 0.45f;
-
             Collider[] hits = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
             foreach (Collider hit in hits)
             {
                 if (!hit.transform.IsChildOf(transform) && hit.CompareTag("BlockCube"))
-                {
                     return true;
-                }
             }
         }
         return false;
@@ -156,21 +232,28 @@ public class BlockDragger : MonoBehaviour
 
     bool WouldOverlapAtPosition(Vector3 proposedPosition)
     {
-        Vector3 originalPos = transform.position;
-        transform.position = proposedPosition;
-        bool isOverlapping = IsOverlappingOtherBlocks();
-        transform.position = originalPos;
-        return isOverlapping;
+        Vector3 offsetToTest = proposedPosition - transform.position;
+
+        foreach (Transform child in transform)
+        {
+            Vector3 testPos = child.position + offsetToTest;
+            Vector3 halfExtents = Vector3.one * 0.45f;
+
+            Collider[] hits = Physics.OverlapBox(testPos, halfExtents, Quaternion.identity);
+            foreach (Collider hit in hits)
+            {
+                if (!hit.transform.IsChildOf(transform) && hit.CompareTag("BlockCube"))
+                    return true;
+            }
+        }
+        return false;
     }
 
-    public bool IsAllChildrenInsideGridTriggers()
+    bool IsAllChildrenInsideGridTriggers()
     {
         foreach (Transform child in transform)
         {
-            Vector3 center = child.position;
-            Vector3 halfExtents = Vector3.one * 0.45f;
-            Collider[] hits = Physics.OverlapBox(center, halfExtents, Quaternion.identity);
-
+            Collider[] hits = Physics.OverlapBox(child.position, Vector3.one * 0.45f, Quaternion.identity);
             bool foundGridCell = false;
 
             foreach (Collider hit in hits)
@@ -184,11 +267,10 @@ public class BlockDragger : MonoBehaviour
 
             if (!foundGridCell)
             {
-                Debug.LogWarning("Child not on grid: " + child.name + " at " + child.position);
+                Debug.LogWarning("Child not on grid: " + child.name);
                 return false;
             }
         }
-
         return true;
     }
 
@@ -196,27 +278,22 @@ public class BlockDragger : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            Vector3 checkPosition = child.position;
-            Collider[] colliders = Physics.OverlapSphere(checkPosition, 1f);
-
+            Collider[] colliders = Physics.OverlapSphere(child.position, 1f);
             bool matchedColor = false;
 
             foreach (Collider col in colliders)
             {
                 GridCellColor cell = col.GetComponent<GridCellColor>();
-                if (cell != null)
+                if (cell && (cell.allowedColor == BlockColorType.Any || cell.allowedColor == blockColor))
                 {
-                    if (cell.allowedColor == BlockColorType.Any || cell.allowedColor == blockColor)
-                    {
-                        matchedColor = true;
-                        break;
-                    }
+                    matchedColor = true;
+                    break;
                 }
             }
 
             if (!matchedColor)
             {
-                Debug.LogWarning($"{child.name} at {checkPosition} is not over a valid color grid cell.");
+                Debug.LogWarning($"{child.name} is not over a correct color grid cell.");
                 return false;
             }
         }
@@ -229,10 +306,7 @@ public class BlockDragger : MonoBehaviour
         if (lastOccupiedCells == null) return;
 
         foreach (GridCellColor cell in lastOccupiedCells)
-        {
-            if (cell != null)
-                cell.isOccupied = false;
-        }
+            if (cell != null) cell.isOccupied = false;
 
         lastOccupiedCells = null;
 
