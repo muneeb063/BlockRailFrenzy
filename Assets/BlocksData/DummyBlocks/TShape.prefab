@@ -104,7 +104,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.82, y: 1, z: 0.82}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2301749265394570366
 Rigidbody:
@@ -128,7 +128,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -237,7 +237,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.82, y: 1, z: 0.82}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3240354931570656443
 Rigidbody:
@@ -261,7 +261,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -370,7 +370,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.82, y: 1, z: 0.82}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4866445034693646968
 Rigidbody:
@@ -394,7 +394,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -503,7 +503,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.82, y: 1, z: 0.82}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3797543102556737790
 Rigidbody:
@@ -527,7 +527,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -596,3 +596,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22056cd26fa506947aa95615c14a7d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockColor: 0

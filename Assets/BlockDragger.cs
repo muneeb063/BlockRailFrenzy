@@ -85,7 +85,7 @@ public class BlockDragger : MonoBehaviour
                     else
                     {
                         // Try a soft nudge towards finger
-                        Vector3 softTarget = Vector3.Lerp(transform.position, targetPos, 0.15f);
+                        Vector3 softTarget = Vector3.Lerp(transform.position, targetPos, 0.05f);//0.15 tha
                         softTarget.y = yOffset;
 
                         if (!WouldOverlapAtPosition(softTarget))
